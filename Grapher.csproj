@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProjectGuid>{225A6F45-23A0-451E-9C9A-6121EDACE105}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>Grapher</RootNamespace>
+    <AssemblyName>Grapher</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Externalconsole>true</Externalconsole>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <DebugType>full</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Externalconsole>true</Externalconsole>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="IGraphable.cs" />
+    <Compile Include="IMFunc.cs" />
+    <Compile Include="SimpleClasses.cs" />
+    <Compile Include="test.cs" />
+    <Compile Include="FuncGraph.cs" />
+    <Compile Include="GraphWidget.cs" />
+    <Compile Include="GraphContainer.cs" />
+    <Compile Include="GraphingCalc.cs" />
+    <Compile Include="TermResize.cs" />
+    <Compile Include="Axes.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <None Include="README.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Libraries\CursesSharp\CursesSharp\CursesSharp.csproj">
+      <Project>{2FEF4990-95CB-42DF-984C-EFBA070652BF}</Project>
+      <Name>CursesSharp</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Libraries\CursesSharp\CursesSharp.Gui\CursesSharp.Gui.csproj">
+      <Project>{E3AF7818-CA6E-4833-B807-3077251D2DCD}</Project>
+      <Name>CursesSharp.Gui</Name>
+    </ProjectReference>
+  </ItemGroup>
+</Project>
