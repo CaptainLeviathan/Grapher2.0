@@ -7,17 +7,19 @@ namespace Grapher
     {
         IMFunc mFunc;
 
-		GraphWidget graph;
+		ITransformAG trans;
 
-		public FuncGraph(IMFunc mFunc, GraphWidget graph)
+		public FuncGraph(IMFunc mFunc, ITransformAG trans)
         {
             this.mFunc = mFunc;
-			this.graph = graph;
+			this.trans = trans;
         }
 
         //returns completed charpoints to go and get placed on the graphwindow
-		public List<CharPoint> getPoints (GraphWidget graph)
+		public List<CharPoint> getPoints (ITransformAG trans)
 		{
+
+			this.trans = trans;
 
             List<CharPoint> ploted = new List<CharPoint>();
 
@@ -31,7 +33,7 @@ namespace Grapher
 
             int deltaY;
 
-			for (int x = 0; x < graph.w; x++)
+			for (int x = 0; x < trans.Get_AsciiSize().x; x++)
             {
 				//points for next iteration
 				lastPoint = point;
@@ -172,9 +174,9 @@ namespace Grapher
 		void evalPoint(ref IntPoint Ip)
 		{
 			DoublePoint gp = new DoublePoint(0, 0);
-			gp = graph.AsciiToGraphTrans(Ip);
+			gp = trans.AsciiToGraphTrans(Ip);
 			gp.y = mFunc.func(gp.x);
-			Ip = graph.GraphToAsciiTrans(gp);
+			Ip = trans.GraphToAsciiTrans(gp);
 		}
     }
 }

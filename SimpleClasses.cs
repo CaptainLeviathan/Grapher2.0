@@ -7,13 +7,14 @@ namespace Grapher
 		private bool isXNaN_;
 		private bool isYNaN_;
 		//this is protected so that in the futcher IntPoint can make it setable
-		protected bool isNaN_;
-
+		/// <summary>
+		///   returns true is either x or y is NaN
+		/// </summary>
 		public bool isNaN
 		{
 			get 
 			{
-				return isNaN_;
+				return isXNaN || isYNaN;
 			}
 		}
 
@@ -27,9 +28,9 @@ namespace Grapher
 			set 
 			{
 				isXNaN_ = value;
-				isNaN_ = isXNaN_ || isYNaN_;
 			}
 		}
+
 		public bool isYNaN		
 		{
 			get 
@@ -39,7 +40,6 @@ namespace Grapher
 			set 
 			{
 				isYNaN_ = value;
-				isNaN_ = isXNaN_ || isYNaN_;
 			}
 		}
 	}
@@ -57,6 +57,8 @@ namespace Grapher
             this.x = x;
             this.y = y;
         }
+
+
     }
 
     public class CharPoint : IntPoint
@@ -70,6 +72,14 @@ namespace Grapher
         {
             symbol = c;
         }
+
+		public CharPoint(IntPoint iP) : base(iP.x, iP.y)
+		{
+			isXNaN = iP.isXNaN;
+			isYNaN = iP.isYNaN;
+
+			symbol = ' ';
+		}
     }
     
 	public class DoublePoint : Point

@@ -47,6 +47,8 @@
     <Compile Include="GraphingCalc.cs" />
     <Compile Include="TermResize.cs" />
     <Compile Include="Axes.cs" />
+    <Compile Include="ITransformAG.cs" />
+    <Compile Include="TransformAG.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

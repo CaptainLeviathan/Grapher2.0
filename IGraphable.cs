@@ -4,6 +4,6 @@ namespace Grapher
 {
     public interface IGraphable
     {
-		List<CharPoint> getPoints(GraphWidget window);
+		List<CharPoint> getPoints(ITransformAG trans);
     }
 }

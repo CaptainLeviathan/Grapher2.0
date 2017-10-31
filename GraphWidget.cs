@@ -7,78 +7,43 @@ namespace Grapher
 {
 	public class GraphWidget : Widget
     {
-		double charAspect = 1.5;
+		public bool HasAxes = true;
 
-        //theses are the propertys that describe the graph window in the equlidean plane
-        public double graphWith; 
-        public double graphHight;
-		public DoublePoint graphCenter;
+		public ITransformAG trans;
 
 		public DoublePoint moveSpeed;
 
-		DoublePoint graphStep;
-
         public List<IGraphable> graphs;
+
+		public Axes axes;
 
 		public GraphWidget(int X, int Y, int with, int hight) : base(X, Y, with, hight)
         {
 			CanFocus = true;
 
-			this.graphWith = 5; 
-			this.graphHight = 2;
-
-			this.graphCenter = new DoublePoint(0.0, 0.0);
+			trans = new TransformAG (with, hight, 0.0, 0.0, 5.0, 2.0);
 
 			moveSpeed = new DoublePoint (1.0, 1.0);
-			graphStep = new DoublePoint (0.0, 0.0);
 
 			graphs = new List<IGraphable>();
+
+			axes = new Axes ();
         }
 
-		public GraphWidget(int centerX, int centerY, int with, int hight, double graphCenterX, double graphCenterY, double graphWith, double graphHight) : base(centerX, centerY, with, hight)
+		public GraphWidget(int X, int Y, int with, int hight, double graphX, double graphY, double graphW, double graphH) : base(X, Y, with, hight)
         {
 			CanFocus = true;
 
-			this.graphWith = graphWith; 
-			this.graphHight = graphHight;
+			trans = new TransformAG (with, hight, graphX, graphY, graphW, graphH);
 
-			this.graphCenter = new DoublePoint(graphCenterX,graphCenterY);
-
-			moveSpeed = new DoublePoint (1,1);
-			graphStep = new DoublePoint (0,0);
+			moveSpeed = new DoublePoint (1.0, 1.0);
 
 
 			graphs = new List<IGraphable>();
+
+			axes = new Axes ();
 		}
 
-
-        public IntPoint GraphToAsciiTrans(DoublePoint gPoint)
-        {
-			IntPoint output = new IntPoint(
-            //Transform Equetions for converting somthing a function out puts to something that can be more esily, drawn latter and worked with.
-				gPoint.isXNaN ? 0 : Convert.ToInt32(((gPoint.x - graphCenter.x)*(w/(graphWith*charAspect))) + w/2), 
-				gPoint.isYNaN ? 0 : Convert.ToInt32(((gPoint.y - graphCenter.y)*(h/graphHight)) + h/2) 
-            );
-
-			output.isXNaN = gPoint.isXNaN;
-			output.isYNaN = gPoint.isYNaN;
-
-			return output;
-        }
-			
-        public DoublePoint AsciiToGraphTrans(IntPoint aPoint)
-        {
-			DoublePoint output = new DoublePoint(
-            //Transform Equations for converting a point on the Ascii graph to somthing that a function can take
-				aPoint.isXNaN ? Double.NaN : (Convert.ToDouble((aPoint.x - w/2) * ((graphWith*charAspect)/w) + graphCenter.x)),
-				aPoint.isYNaN ? Double.NaN : (Convert.ToDouble((aPoint.y - h/2) * (graphHight/h) + graphCenter.y))
-            );
-
-			output.isXNaN = aPoint.isXNaN;
-			output.isYNaN = aPoint.isYNaN;
-
-			return output;
-        }
 
 		//final transormation to flips the y-axis to be printed on the widget
 		CharPoint AsciiToCollineTrans(CharPoint aPoint)
@@ -89,47 +54,59 @@ namespace Grapher
 			);
 		}
 
-
+		//this is were the controls are prosses for zooming and 
 		public override bool ProcessKey (int key)
 		{
-			calcStepSize ();
+
+			DoublePoint graphCenter = trans.Get_GraphCenter();
+
+			DoublePoint graphSize = trans.Get_GraphSize();
+
+			DoublePoint StepSize = calcStepSize ();
 
 			switch (key) 
 			{
 			case 'w':
-				graphCenter.y += graphStep.y;
+				graphCenter.y += StepSize.y;
 				break;
 			case 'a':
-				graphCenter.x -= graphStep.x;
+				graphCenter.x -= StepSize.x;
 				break;
 			case 's':
-				graphCenter.y -= graphStep.y;
+				graphCenter.y -= StepSize.y;
 				break;
 			case 'd':
-				graphCenter.x += graphStep.x;
+				graphCenter.x += StepSize.x;
 				break;
 			case 'r':
-				graphWith -= 2 * graphStep.x;
-				graphHight -= 2 * graphStep.y;
+				graphSize.x -= 2 * StepSize.x;
+				graphSize.y -= 2 * StepSize.y;
 				break;
 			case 'f':
-				graphWith += 2 * graphStep.x;
-				graphHight += 2 * graphStep.y;
+				graphSize.x += 2 * StepSize.x;
+				graphSize.y += 2 * StepSize.y;
 				break;
 			default:
 				return false;
 			}
+
+			trans.Set_GraphCenter (graphCenter);
+			trans.Set_GraphSize (graphSize);
 
 			Redraw ();
 
 			return true;
 		}
 
-		void calcStepSize()
+		DoublePoint calcStepSize()
 		{
-			//computing the amount to move
-			graphStep.x = Convert.ToDouble (((graphWith * charAspect) / w) * moveSpeed.x);
-			graphStep.y = Convert.ToDouble ((graphHight / h) * moveSpeed.y);
+			//computing the amount to move when you hit a key
+			DoublePoint graphStep = new DoublePoint (0,0);
+
+			graphStep.x = trans.Get_GARatio().x * moveSpeed.x;
+			graphStep.y = trans.Get_GARatio().y * moveSpeed.y;
+
+			return graphStep;
 		}
 
 		//gets called if the wigets size ever changes
@@ -145,6 +122,7 @@ namespace Grapher
 
 			Stdscr.Attr =  (ColorNormal);
 
+			//clearing screen bilt in function dose not work
 			for(int col = 0; col < w; ++col)
 			{
 				for(int line = 0; line < h; ++line)
@@ -154,11 +132,17 @@ namespace Grapher
 				}
 			}
 
+			// geting all of the points
+			if (HasAxes) 
+			{
+				charPoints.AddRange(axes.getPoints(trans));
+			}
             for (int i = 0; i < graphs.Count; i++)
             {
-                charPoints.AddRange(graphs[i].getPoints(this));
+				charPoints.AddRange(graphs[i].getPoints(trans));
             }
 
+			//finlaly printing every thing to the screen
 			CharPoint CollineP = new CharPoint(0,0);
 
 			for (int i = 0; i < charPoints.Count; i++) 

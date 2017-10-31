@@ -14,15 +14,15 @@ namespace Grapher
 	class TransformTester
 	{
 		// if the test works both of the points should come back (0,0)
-		public TransformTest Runtest(GraphWidget gW)
+		public TransformTest Runtest(TransformAG trans)
 		{
 			TransformTest tTest = new TransformTest();
 
 			IntPoint AtoGtoA = new IntPoint(0, 0);
 			DoublePoint GtoAtoG = new DoublePoint (0.0, 0.0);
 
-			AtoGtoA = gW.GraphToAsciiTrans (gW.AsciiToGraphTrans (AtoGtoA));
-			GtoAtoG = gW.AsciiToGraphTrans (gW.GraphToAsciiTrans (GtoAtoG));
+			AtoGtoA = trans.GraphToAsciiTrans (trans.AsciiToGraphTrans (AtoGtoA));
+			GtoAtoG = trans.AsciiToGraphTrans (trans.GraphToAsciiTrans (GtoAtoG));
 
 			tTest.AtoGtoA = AtoGtoA;
 			tTest.GtoAtoG = GtoAtoG;
