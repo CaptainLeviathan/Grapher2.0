@@ -37,18 +37,18 @@
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="IGraphable.cs" />
-    <Compile Include="IMFunc.cs" />
-    <Compile Include="SimpleClasses.cs" />
     <Compile Include="test.cs" />
     <Compile Include="FuncGraph.cs" />
     <Compile Include="GraphWidget.cs" />
     <Compile Include="GraphContainer.cs" />
     <Compile Include="GraphingCalc.cs" />
-    <Compile Include="TermResize.cs" />
     <Compile Include="Axes.cs" />
-    <Compile Include="ITransformAG.cs" />
     <Compile Include="TransformAG.cs" />
+    <Compile Include="Interfaces\IGraphable.cs" />
+    <Compile Include="Interfaces\IMFunc.cs" />
+    <Compile Include="Interfaces\ITransformAG.cs" />
+    <Compile Include="HelperClasses\SimpleClasses.cs" />
+    <Compile Include="HelperClasses\TermResize.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -63,5 +63,21 @@
       <Project>{E3AF7818-CA6E-4833-B807-3077251D2DCD}</Project>
       <Name>CursesSharp.Gui</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ProjectExtensions>
+    <MonoDevelop>
+      <Properties>
+        <Policies>
+          <TextStylePolicy inheritsSet="VisualStudio" inheritsScope="text/plain" scope="text/plain" />
+          <CSharpFormattingPolicy IndentSwitchBody="True" IndentBlocksInsideExpressions="True" AnonymousMethodBraceStyle="NextLine" PropertyBraceStyle="NextLine" PropertyGetBraceStyle="NextLine" PropertySetBraceStyle="NextLine" EventBraceStyle="NextLine" EventAddBraceStyle="NextLine" EventRemoveBraceStyle="NextLine" StatementBraceStyle="NextLine" ElseNewLinePlacement="NewLine" CatchNewLinePlacement="NewLine" FinallyNewLinePlacement="NewLine" WhileNewLinePlacement="DoNotCare" ArrayInitializerWrapping="DoNotChange" ArrayInitializerBraceStyle="NextLine" BeforeMethodDeclarationParentheses="False" BeforeMethodCallParentheses="False" BeforeConstructorDeclarationParentheses="False" NewLineBeforeConstructorInitializerColon="NewLine" NewLineAfterConstructorInitializerColon="SameLine" BeforeDelegateDeclarationParentheses="False" NewParentheses="False" SpacesBeforeBrackets="False" inheritsSet="Mono" inheritsScope="text/x-csharp" scope="text/x-csharp" />
+          <TextStylePolicy inheritsSet="VisualStudio" inheritsScope="text/plain" scope="text/x-csharp" />
+          <TextStylePolicy inheritsSet="null" scope="text/markdown" />
+        </Policies>
+      </Properties>
+    </MonoDevelop>
+  </ProjectExtensions>
+  <ItemGroup>
+    <Folder Include="Interfaces\" />
+    <Folder Include="HelperClasses\" />
   </ItemGroup>
 </Project>
