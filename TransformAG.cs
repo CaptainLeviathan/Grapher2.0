@@ -14,6 +14,14 @@ namespace Grapher
 
         private Point graphSize;
 
+        public TransformAG (int asciiW,int asciiH, double graphX, double graphY, double graphW, double graphH)
+        {
+            asciiSize = new IntPoint (asciiW, asciiH);
+            graphCenter = new Point (graphX, graphY);
+            graphSize = new Point (graphW, graphH);
+        }
+
+
         public Point Get_GARatio()
         {
             return new Point (
@@ -90,21 +98,14 @@ namespace Grapher
         {
             asciiSize = s;
         }
-
-        public TransformAG (int asciiW,int asciiH, double graphX, double graphY, double graphW, double graphH)
-        {
-            asciiSize = new IntPoint (asciiW, asciiH);
-            graphCenter = new Point (graphX, graphY);
-            graphSize = new Point (graphW, graphH);
-        }
-
+            
         public IntPoint GraphToAsciiTrans(Point gPoint)
         {
-            IntPoint output = new IntPoint(
-                //Transform Equetions for converting somthing a function out puts to something that can be more esily, drawn latter and worked with.
-                gPoint.isXNaN ? 0 : Convert.ToInt32( (gPoint.x - graphCenter.x) / Get_GARatio().x + asciiSize.x/2), 
-                gPoint.isYNaN ? 0 : Convert.ToInt32( (gPoint.y - graphCenter.y) / Get_GARatio().y + asciiSize.y/2) 
-            );
+
+            //Transform Equetions for converting somthing a function out puts to something that can be more esily, drawn latter and worked with.
+
+            IntPoint output = new IntPoint(((gPoint - graphCenter) / Get_GARatio()) + asciiSize * 0.5);
+
 
             output.isXNaN = gPoint.isXNaN;
             output.isYNaN = gPoint.isYNaN;
@@ -114,11 +115,9 @@ namespace Grapher
 
         public Point AsciiToGraphTrans(IntPoint aPoint)
         {
-            Point output = new Point(
-                //Transform Equations for converting a point on the Ascii graph to somthing that a function can take
-                aPoint.isXNaN ? Double.NaN : (Convert.ToDouble((aPoint.x - asciiSize.x/2) * Get_GARatio().x + graphCenter.x)),
-                aPoint.isYNaN ? Double.NaN : (Convert.ToDouble((aPoint.y - asciiSize.y/2) * Get_GARatio().y + graphCenter.y))
-            );
+            //Transform Equations for converting a point on the Ascii graph to somthing that a function can take
+
+            Point output = ((aPoint - asciiSize * 0.5) * Get_GARatio()) + graphCenter;
 
             output.isXNaN = aPoint.isXNaN;
             output.isYNaN = aPoint.isYNaN;

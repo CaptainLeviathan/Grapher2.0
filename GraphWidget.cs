@@ -112,8 +112,8 @@ namespace Grapher
             {
                 for(int line = 0; line < h; ++line)
                 {
-                    this.Move (line + y, col + x);
-                Stdscr.Add (' ');
+                    this.Move(line + y, col + x);
+                    Stdscr.Add(' ');
                 }
             }
 
@@ -133,7 +133,14 @@ namespace Grapher
 
             for (int i = 0; i < charPoints.Count; i++) 
             {
-                CollineP = AsciiToCollineTrans (charPoints[i]);
+                if (!charPoints[i].isNaN)
+                {
+                    CollineP = AsciiToCollineTrans(charPoints[i]);
+                }
+                else
+                {
+                    continue;
+                }
 
                 if (CollineP.x >= 0 && CollineP.y >= 0 && CollineP.x < w && CollineP.y < h)
                 {

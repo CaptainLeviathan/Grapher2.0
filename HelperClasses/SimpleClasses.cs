@@ -22,7 +22,7 @@ namespace Grapher
             set 
             {
                 x_ = value;
-                isXNaN = Double.IsNaN (x) || Double.IsInfinity (x) || isXNaN;
+                isXNaN = Double.IsNaN (x) || Double.IsInfinity (x);
             }
         }
 
@@ -35,7 +35,7 @@ namespace Grapher
             set 
             {
                 y_ = value;
-                isYNaN = Double.IsNaN (y) || Double.IsInfinity (y) || isYNaN;
+                isYNaN = Double.IsNaN (y) || Double.IsInfinity (y);
             }
         }
 
@@ -75,54 +75,58 @@ namespace Grapher
             return string.Format("[Point: x={0}, y={1}, isNaN={2}]", x, y, isNaN);
         }
 
-        private static Point NewPointWithOrNaNOldPoints(Point a, Point b)
+        private static void TransferNaN(Point a, Point b, ref Point outPut)
         {
-            Point outPut = new Point(0.0, 0.0);
             outPut.isXNaN = a.isXNaN || b.isXNaN;
             outPut.isYNaN = a.isYNaN || b.isYNaN;
-            return outPut;
         }
 
         static public Point Add(Point a, Point b)
         {
-            Point outPut = NewPointWithOrNaNOldPoints(a, b);
+            Point outPut = new Point(0.0, 0.0);
             outPut.x = a.x + b.x;
             outPut.y = a.y + b.y;
+            TransferNaN(a, b, ref outPut);
             return outPut;
         }
 
         static public Point Subtract(Point a, Point b)
         {
-            Point outPut = NewPointWithOrNaNOldPoints(a, b);
-            outPut.x = a.x * b.x;
-            outPut.y = a.y * b.y;
+            Point outPut = new Point(0.0, 0.0);
+            outPut.x = a.x - b.x;
+            outPut.y = a.y - b.y;
+            TransferNaN(a, b, ref outPut);
             return outPut;
         }
 
         static public Point Multiply(Point a, Point b)
         {
-            Point outPut = NewPointWithOrNaNOldPoints(a, b);
+            Point outPut = new Point(0.0, 0.0);
             outPut.x = a.x * b.x;
             outPut.y = a.y * b.y;
+            TransferNaN(a, b, ref outPut);
             return outPut;
         }
 
         static public Point Multiply(Point a, double b)
         {
-            Point outPut = new Point(0, 0);
-            outPut.isXNaN = a.isXNaN;
-            outPut.isYNaN = a.isYNaN;
+            Point outPut = new Point(0.0, 0.0);
 
             outPut.x = a.x * b;
             outPut.y = a.y * b;
+
+            outPut.isXNaN = a.isXNaN;
+            outPut.isYNaN = a.isYNaN;
+
             return outPut;
         }
 
         static public Point Divide(Point a, Point b)
         {
-            Point outPut = NewPointWithOrNaNOldPoints(a, b);
+            Point outPut = new Point(0.0, 0.0);
             outPut.x = a.x / b.x;
             outPut.y = a.y / b.y;
+            TransferNaN(a, b, ref outPut);
             return outPut;
         }
 
@@ -210,35 +214,36 @@ namespace Grapher
             return string.Format("[IntPoint: x={0}, y={1}, isNaN={2}]", x, y, isNaN);
         }
 
-        private static IntPoint NewIntPointWithOrNaNOldPoints(Point a, Point b)
+        private static void TransferNaN(Point a, Point b, ref IntPoint outPut)
         {
-            IntPoint outPut = new IntPoint(0, 0);
             outPut.isXNaN = a.isXNaN || b.isXNaN;
             outPut.isYNaN = a.isYNaN || b.isYNaN;
-            return outPut;
         }
 
         static public IntPoint Add(IntPoint a, IntPoint b)
         {
-            IntPoint outPut = NewIntPointWithOrNaNOldPoints(a, b);
+            IntPoint outPut = new IntPoint(0, 0);
             outPut.x = a.x + b.x;
             outPut.y = a.y + b.y;
+            TransferNaN(a, b, ref outPut);
             return outPut;
         }
 
         static public IntPoint Subtract(IntPoint a, IntPoint b)
         {
-            IntPoint outPut = NewIntPointWithOrNaNOldPoints(a, b);
-            outPut.x = a.x * b.x;
-            outPut.y = a.y * b.y;
+            IntPoint outPut = new IntPoint(0, 0);
+            outPut.x = a.x - b.x;
+            outPut.y = a.y - b.y;
+            TransferNaN(a, b, ref outPut);
             return outPut;
         }
 
         static public IntPoint Multiply(IntPoint a, IntPoint b)
         {
-            IntPoint outPut = NewIntPointWithOrNaNOldPoints(a, b);
+            IntPoint outPut = new IntPoint(0, 0);
             outPut.x = a.x * b.x;
             outPut.y = a.y * b.y;
+            TransferNaN(a, b, ref outPut);
             return outPut;
         }
 

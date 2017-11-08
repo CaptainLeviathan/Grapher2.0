@@ -6,7 +6,7 @@ namespace Grapher
     {
         public double func(double x)
         {
-            return Math.Atan(x);
+            return Math.Acos(x);
         }
     }
 
