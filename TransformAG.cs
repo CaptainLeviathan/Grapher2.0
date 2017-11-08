@@ -9,35 +9,35 @@ namespace Grapher
 
         private IntPoint asciiSize;
 
-        private DoublePoint graphCenter;
+        private Point graphCenter;
 
-        private DoublePoint graphSize;
+        private Point graphSize;
 
 
-        public DoublePoint Get_GARatio()
+        public Point Get_GARatio()
         {
-            return new DoublePoint (
+            return new Point (
                 (graphSize.x * charAspect) / asciiSize.x,
                 graphSize.y/asciiSize.y
             );
         }
 
-        public DoublePoint Get_GraphCenter()
+        public Point Get_GraphCenter()
         {
             return graphCenter;
         }
 
-        public void Set_GraphCenter(DoublePoint c)
+        public void Set_GraphCenter(Point c)
         {
             graphCenter = c;
         }
 
-        public DoublePoint Get_GraphSize()
+        public Point Get_GraphSize()
         {
             return graphSize;
         }
 
-        public void Set_GraphSize(DoublePoint s)
+        public void Set_GraphSize(Point s)
         {
         	graphSize = s;
         }
@@ -45,7 +45,7 @@ namespace Grapher
         //min and max are computed when requested
         //most things should be done with size and center
 
-        public void Set_MinMax(DoublePoint Min, DoublePoint Max)
+        public void Set_MinMax(Point Min, Point Max)
         {
             if(Min.x <= Max.x && Min.y <= Max.y)
             {
@@ -61,22 +61,22 @@ namespace Grapher
             }
         }
 
-        public DoublePoint Get_Min()
+        public Point Get_Min()
         {
-            return new DoublePoint (graphCenter.x - graphSize.x/2, graphCenter.y - graphSize.y/2);
+            return new Point (graphCenter.x - graphSize.x/2, graphCenter.y - graphSize.y/2);
         }
 
-        public void Set_Min(DoublePoint m)
+        public void Set_Min(Point m)
         {
             Set_MinMax(m, Get_Max());
         }
 
-        public DoublePoint Get_Max()
+        public Point Get_Max()
         {
-            return new DoublePoint (graphCenter.x + graphSize.x/2, graphCenter.y + graphSize.y/2);
+            return new Point (graphCenter.x + graphSize.x/2, graphCenter.y + graphSize.y/2);
         }
 
-        public void Set_Max(DoublePoint m)
+        public void Set_Max(Point m)
         {
             Set_MinMax(Get_Min(), m);
         }
@@ -94,11 +94,11 @@ namespace Grapher
         public TransformAG (int asciiW,int asciiH, double graphX, double graphY, double graphW, double graphH)
         {
             asciiSize = new IntPoint (asciiW, asciiH);
-            graphCenter = new DoublePoint (graphX, graphY);
-            graphSize = new DoublePoint (graphW, graphH);
+            graphCenter = new Point (graphX, graphY);
+            graphSize = new Point (graphW, graphH);
         }
 
-        public IntPoint GraphToAsciiTrans(DoublePoint gPoint)
+        public IntPoint GraphToAsciiTrans(Point gPoint)
         {
             IntPoint output = new IntPoint(
                 //Transform Equetions for converting somthing a function out puts to something that can be more esily, drawn latter and worked with.
@@ -112,9 +112,9 @@ namespace Grapher
             return output;
         }
 
-        public DoublePoint AsciiToGraphTrans(IntPoint aPoint)
+        public Point AsciiToGraphTrans(IntPoint aPoint)
         {
-            DoublePoint output = new DoublePoint(
+            Point output = new Point(
                 //Transform Equations for converting a point on the Ascii graph to somthing that a function can take
                 aPoint.isXNaN ? Double.NaN : (Convert.ToDouble((aPoint.x - asciiSize.x/2) * Get_GARatio().x + graphCenter.x)),
                 aPoint.isYNaN ? Double.NaN : (Convert.ToDouble((aPoint.y - asciiSize.y/2) * Get_GARatio().y + graphCenter.y))

@@ -176,7 +176,7 @@ namespace Grapher
 
         void evalPoint(ref IntPoint Ip)
         {
-            DoublePoint gp = new DoublePoint(0, 0);
+            Point gp = new Point(0, 0);
             gp = trans.AsciiToGraphTrans(Ip);
             gp.y = mFunc.func(gp.x);
             Ip = trans.GraphToAsciiTrans(gp);

@@ -5,10 +5,10 @@ namespace Grapher
 {
     public class Axes : IGraphable
     {
-        DoublePoint Min;
-        DoublePoint Max;
+        Point Min;
+        Point Max;
 
-        DoublePoint Ratio;
+        Point Ratio;
 
         public List<CharPoint> getPoints(ITransformAG trans)
         {
@@ -28,7 +28,7 @@ namespace Grapher
         void X_Axis(ITransformAG trans, ref List<CharPoint> axes)
         {
 
-            DoublePoint x_Point = new DoublePoint (Min.x, 0);
+            Point x_Point = new Point (Min.x, 0);
 
             while(x_Point.x <= Max.x)
             {
@@ -44,7 +44,7 @@ namespace Grapher
 
         void Y_Axis(ITransformAG trans, ref List<CharPoint> axes)
         {
-            DoublePoint y_Point = new DoublePoint (0, Min.y);
+            Point y_Point = new Point (0, Min.y);
 
             while(y_Point.y <= Max.y)
             {

@@ -9,7 +9,7 @@ namespace Grapher
     {
         public bool HasAxes = true;
         public ITransformAG trans;
-        public DoublePoint moveSpeed;
+        public Point moveSpeed;
         public List<IGraphable> graphs;
         public Axes axes;
 
@@ -17,7 +17,7 @@ namespace Grapher
         {
             CanFocus = true;
             trans = new TransformAG (with, hight, 0.0, 0.0, 5.0, 2.0);
-            moveSpeed = new DoublePoint (1.0, 1.0);
+            moveSpeed = new Point (1.0, 1.0);
             graphs = new List<IGraphable>();
             axes = new Axes ();
         }
@@ -26,7 +26,7 @@ namespace Grapher
         {
             CanFocus = true;
             trans = new TransformAG (with, hight, graphX, graphY, graphW, graphH);
-            moveSpeed = new DoublePoint (1.0, 1.0);
+            moveSpeed = new Point (1.0, 1.0);
             graphs = new List<IGraphable>();
             axes = new Axes ();
         }
@@ -45,9 +45,9 @@ namespace Grapher
         public override bool ProcessKey (int key)
         {
 
-            DoublePoint graphCenter = trans.Get_GraphCenter();
-            DoublePoint graphSize = trans.Get_GraphSize();
-            DoublePoint StepSize = calcStepSize ();
+            Point graphCenter = trans.Get_GraphCenter();
+            Point graphSize = trans.Get_GraphSize();
+            Point StepSize = calcStepSize ();
 
             switch (key) 
             {
@@ -83,10 +83,10 @@ namespace Grapher
             return true;
         }
 
-        DoublePoint calcStepSize()
+        Point calcStepSize()
         {
             //computing the amount to move when you hit a key
-            DoublePoint graphStep = new DoublePoint (0,0);
+            Point graphStep = new Point (0,0);
 
             graphStep.x = trans.Get_GARatio().x * moveSpeed.x;
             graphStep.y = trans.Get_GARatio().y * moveSpeed.y;

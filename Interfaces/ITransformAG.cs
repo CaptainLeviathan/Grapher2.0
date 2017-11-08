@@ -4,31 +4,31 @@ namespace Grapher
 {
     public interface ITransformAG
     {
-        IntPoint GraphToAsciiTrans(DoublePoint gPoint);
+        IntPoint GraphToAsciiTrans(Point gPoint);
 
-        DoublePoint AsciiToGraphTrans(IntPoint aPoint);
+        Point AsciiToGraphTrans(IntPoint aPoint);
 
-        DoublePoint Get_GARatio();
+        Point Get_GARatio();
 
-        DoublePoint Get_GraphCenter();
-
-
-        void Set_GraphCenter(DoublePoint c);
-
-        DoublePoint Get_GraphSize();
-
-        void Set_GraphSize(DoublePoint s);
+        Point Get_GraphCenter();
 
 
-        void Set_MinMax(DoublePoint Min, DoublePoint Max);
+        void Set_GraphCenter(Point c);
 
-        DoublePoint Get_Min();
+        Point Get_GraphSize();
 
-        void Set_Min(DoublePoint m);
+        void Set_GraphSize(Point s);
 
-        DoublePoint Get_Max();
 
-        void Set_Max(DoublePoint m);
+        void Set_MinMax(Point Min, Point Max);
+
+        Point Get_Min();
+
+        void Set_Min(Point m);
+
+        Point Get_Max();
+
+        void Set_Max(Point m);
 
 
         IntPoint Get_AsciiSize();
