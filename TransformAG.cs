@@ -3,6 +3,7 @@ using CursesSharp.Gui;
 
 namespace Grapher
 {
+
     public class TransformAG : ITransformAG
     {
         public static double charAspect = 1.0;
@@ -12,7 +13,6 @@ namespace Grapher
         private Point graphCenter;
 
         private Point graphSize;
-
 
         public Point Get_GARatio()
         {

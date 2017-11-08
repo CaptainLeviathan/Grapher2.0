@@ -40,7 +40,6 @@
     <Compile Include="test.cs" />
     <Compile Include="FuncGraph.cs" />
     <Compile Include="GraphWidget.cs" />
-    <Compile Include="GraphContainer.cs" />
     <Compile Include="GraphingCalc.cs" />
     <Compile Include="Axes.cs" />
     <Compile Include="TransformAG.cs" />

@@ -61,6 +61,15 @@ namespace Grapher
             this.y = y;
         }
 
+        public Point (IntPoint iP)
+        {
+            isXNaN = iP.isXNaN;
+            isYNaN = iP.isYNaN;
+
+            x = (double)iP.x;
+            y = (double)iP.y;
+        }
+
         public override string ToString()
         {
             return string.Format("[Point: x={0}, y={1}, isNaN={2}]", x, y, isNaN);
@@ -98,6 +107,17 @@ namespace Grapher
             return outPut;
         }
 
+        static public Point Multiply(Point a, double b)
+        {
+            Point outPut = new Point(0, 0);
+            outPut.isXNaN = a.isXNaN;
+            outPut.isYNaN = a.isYNaN;
+
+            outPut.x = a.x * b;
+            outPut.y = a.y * b;
+            return outPut;
+        }
+
         static public Point Divide(Point a, Point b)
         {
             Point outPut = NewPointWithOrNaNOldPoints(a, b);
@@ -105,6 +125,7 @@ namespace Grapher
             outPut.y = a.y / b.y;
             return outPut;
         }
+
         public static Point operator +(Point a, Point b)
         {
             return Add(a ,b);
@@ -119,6 +140,12 @@ namespace Grapher
         {
             return Multiply(a ,b);
         }
+
+        public static Point operator *(Point a, double b)
+        {
+            return Multiply(a ,b);
+        }
+
 
         public static Point operator /(Point a, Point b)
         {
@@ -169,6 +196,15 @@ namespace Grapher
             this.y = y;
         }
 
+        public IntPoint(Point p) : base(p.y , p.x)
+        {
+            isXNaN = p.isXNaN;
+            isYNaN = p.isYNaN;
+
+            x = (int)p.x;
+            y = (int)p.y;
+        }
+
         public override string ToString()
         {
             return string.Format("[IntPoint: x={0}, y={1}, isNaN={2}]", x, y, isNaN);
@@ -206,6 +242,17 @@ namespace Grapher
             return outPut;
         }
 
+        static public IntPoint Multiply(IntPoint a, int b)
+        {
+            IntPoint outPut = new IntPoint(0,0);
+            outPut.isXNaN = a.isXNaN;
+            outPut.isYNaN = a.isYNaN;
+
+            outPut.x = a.x * b;
+            outPut.y = a.y * b;
+            return outPut;
+        }
+
         public static IntPoint operator +(IntPoint a, IntPoint b)
         {
             return Add(a ,b);
@@ -220,6 +267,12 @@ namespace Grapher
         {
             return Multiply(a ,b);
         }
+
+        public static IntPoint operator *(IntPoint a, int b)
+        {
+            return Multiply(a ,b);
+        }
+
     }
 
     public class CharPoint : IntPoint

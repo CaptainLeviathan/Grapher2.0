@@ -112,7 +112,7 @@ namespace Grapher
             {
                 for(int line = 0; line < h; ++line)
                 {
-                    this.Move (line, col);
+                    this.Move (line + y, col + x);
                 Stdscr.Add (' ');
                 }
             }
@@ -137,7 +137,7 @@ namespace Grapher
 
                 if (CollineP.x >= 0 && CollineP.y >= 0 && CollineP.x < w && CollineP.y < h)
                 {
-                    this.Move (CollineP.y, CollineP.x);
+                    this.Move (CollineP.y + y, CollineP.x + x);
                     Stdscr.Add (charPoints [i].symbol);
                 }
             }

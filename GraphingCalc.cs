@@ -6,13 +6,14 @@ namespace Grapher
 {
     public class GraphingCalc : Container
     {
-        GraphContainer graphCon;
+        GraphWidget graphWidget;
 
         public GraphingCalc (int x,int y, int w, int h) : base(x, y, w, h)
         {
-            graphCon = new GraphContainer (x, y, w, h);
-            graphCon.graphWid.graphs.Add (new FuncGraph(new TestFunc(), graphCon.graphWid.trans));
-            Add (graphCon);
+            graphWidget = new GraphWidget (x, y, w - 2, h - 2);
+            DrawFrame(x, y, w, h);
+            graphWidget.graphs.Add (new FuncGraph(new TestFunc(), graphWidget.trans));
+            Add (graphWidget);
         }
     }
 }
