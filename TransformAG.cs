@@ -71,7 +71,7 @@ namespace Grapher
 
         public Point Get_Min()
         {
-            return new Point (graphCenter.x - graphSize.x/2, graphCenter.y - graphSize.y/2);
+            return graphCenter - (graphSize * 0.5);
         }
 
         public void Set_Min(Point m)
@@ -81,7 +81,7 @@ namespace Grapher
 
         public Point Get_Max()
         {
-            return new Point (graphCenter.x + graphSize.x/2, graphCenter.y + graphSize.y/2);
+            return graphCenter + (graphSize * 0.5);
         }
 
         public void Set_Max(Point m)

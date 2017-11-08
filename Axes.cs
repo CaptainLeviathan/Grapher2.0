@@ -5,19 +5,24 @@ namespace Grapher
 {
     public class Axes : IGraphable
     {
-        Point Min;
-        Point Max;
+        IntPoint AsciiSize;
 
-        Point Ratio;
+        IntPoint AsciiCenter;
+
+        Point Zero;
+
+        public Axes()
+        {
+            Zero = new Point(0.0, 0.0);
+        }
 
         public List<CharPoint> getPoints(ITransformAG trans)
         {
             List<CharPoint> axes = new List<CharPoint> ();
 
-            Min = trans.Get_Min ();
-            Max = trans.Get_Max ();
+            AsciiSize = trans.Get_AsciiSize();
 
-            Ratio = trans.Get_GARatio ();
+            AsciiCenter = trans.GraphToAsciiTrans(Zero);
 
             X_Axis (trans, ref axes);
             Y_Axis (trans, ref axes);
@@ -28,33 +33,24 @@ namespace Grapher
         void X_Axis(ITransformAG trans, ref List<CharPoint> axes)
         {
 
-            Point x_Point = new Point (Min.x, 0);
-
-            while(x_Point.x <= Max.x)
+            if(AsciiCenter.y >= 0 && AsciiCenter.y <= AsciiSize.y)
             {
-                CharPoint outPoint = new CharPoint (trans.GraphToAsciiTrans (x_Point));
-
-                outPoint.symbol = '_';
-
-                axes.Add (outPoint);
-
-                x_Point.x += Ratio.x;
+                for(int x = 0; x <= AsciiSize.x; ++x)
+                {
+                    axes.Add(new CharPoint(x, AsciiCenter.y, '_'));
+                }
             }
+           
         }
 
         void Y_Axis(ITransformAG trans, ref List<CharPoint> axes)
         {
-            Point y_Point = new Point (0, Min.y);
-
-            while(y_Point.y <= Max.y)
+            if(AsciiCenter.x >= 0 && AsciiCenter.x <= AsciiSize.x)
             {
-                CharPoint outPoint = new CharPoint (trans.GraphToAsciiTrans (y_Point));
-
-                outPoint.symbol = '|';
-
-                axes.Add (outPoint);
-
-                y_Point.y += Ratio.y;
+                for(int y = 0; y <= AsciiSize.y; ++y)
+                {
+                    axes.Add(new CharPoint(AsciiCenter.x, y, '|'));
+                }
             }
         }
     }
