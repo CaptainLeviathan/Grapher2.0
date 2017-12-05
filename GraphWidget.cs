@@ -7,16 +7,20 @@ namespace Grapher
 {
     public class GraphWidget : Widget
     {
+        public bool isGraphMode = true;
         public bool HasAxes = true;
         public ITransformAG trans;
+        public Point CursorPosition;
         public Point moveSpeed;
         public List<IGraphable> graphs;
         public Axes axes;
+
 
         public GraphWidget(int X, int Y, int with, int hight) : base(X, Y, with, hight)
         {
             CanFocus = true;
             trans = new TransformAG (with, hight, 0.0, 0.0, 5.0, 2.0);
+            CursorPosition = new Point(0.0, 0.0);
             moveSpeed = new Point (1.0, 1.0);
             graphs = new List<IGraphable>();
             axes = new Axes ();
@@ -26,6 +30,7 @@ namespace Grapher
         {
             CanFocus = true;
             trans = new TransformAG (with, hight, graphX, graphY, graphW, graphH);
+            CursorPosition = new Point(0.0, 0.0);
             moveSpeed = new Point (1.0, 1.0);
             graphs = new List<IGraphable>();
             axes = new Axes ();
@@ -41,42 +46,77 @@ namespace Grapher
             );
         }
 
+        IntPoint AsciiToCollineTrans(IntPoint aPoint)
+        {
+            return new IntPoint(
+                aPoint.x,
+                h - aPoint.y
+            );
+        }
+
+
         //this is were the controls are prosses for zooming and 
         public override bool ProcessKey (int key)
         {
 
+            Point ratio = trans.Get_GARatio();
             Point graphCenter = trans.Get_GraphCenter();
             Point graphSize = trans.Get_GraphSize();
             Point StepSize = calcStepSize ();
 
-            switch (key) 
+            if (key == 'c')
             {
-            case 'w':
-                graphCenter.y += StepSize.y;
-                break;
-            case 'a':
-                graphCenter.x -= StepSize.x;
-                break;
-            case 's':
-                graphCenter.y -= StepSize.y;
-                break;
-            case 'd':
-                graphCenter.x += StepSize.x;
-                break;
-            case 'r':
-                graphSize.x -= 2 * StepSize.x;
-                graphSize.y -= 2 * StepSize.y;
-                break;
-            case 'f':
-                graphSize.x += 2 * StepSize.x;
-                graphSize.y += 2 * StepSize.y;
-                break;
-            default:
-                return false;
+                isGraphMode = !isGraphMode;
             }
 
-            trans.Set_GraphCenter (graphCenter);
-            trans.Set_GraphSize (graphSize);
+            if (isGraphMode)
+            {
+                switch (key)
+                {
+                    case 'w':
+                        graphCenter.y += StepSize.y;
+                        break;
+                    case 'a':
+                        graphCenter.x -= StepSize.x;
+                        break;
+                    case 's':
+                        graphCenter.y -= StepSize.y;
+                        break;
+                    case 'd':
+                        graphCenter.x += StepSize.x;
+                        break;
+                    case 'r':
+                        graphSize.x -= 2 * StepSize.x;
+                        graphSize.y -= 2 * StepSize.y;
+                        break;
+                    case 'f':
+                        graphSize.x += 2 * StepSize.x;
+                        graphSize.y += 2 * StepSize.y;
+                        break;
+                    default:
+                        return false;
+                }
+            }
+            else
+            {
+                switch (key)
+                {
+                    case 'w':
+                        CursorPosition.y += ratio.y;
+                        break;
+                    case 'a':
+                        CursorPosition.x -= ratio.x;
+                        break;
+                    case 's':
+                        CursorPosition.y -= ratio.y;
+                        break;
+                    case 'd':
+                        CursorPosition.x += ratio.x;
+                        break;
+                    default:
+                        return false;
+                }
+            }
 
             Redraw ();
 
@@ -100,6 +140,27 @@ namespace Grapher
             Redraw ();
         }
 
+        public override void PositionCursor()
+        {
+            IntPoint CollLinePosition = AsciiToCollineTrans(trans.GraphToAsciiTrans(CursorPosition));
+            Move(MaxMin(0, CollLinePosition.y, h),MaxMin(0, CollLinePosition.x, w));
+        }
+
+        int MaxMin(int a, int x, int b)
+        {
+            if (x < a)
+            {
+                return a;
+            }
+
+            if (x > b)
+            {
+                return b;
+            }
+
+            return x;
+        }
+
         //redraws the grapg window
         public override void Redraw()
         {
@@ -116,6 +177,8 @@ namespace Grapher
                     Stdscr.Add(' ');
                 }
             }
+
+            Log("On redraw:" + trans.Get_GraphCenter().ToString());
 
             // geting all of the points
             if (HasAxes) 
@@ -148,6 +211,16 @@ namespace Grapher
                     Stdscr.Add (charPoints [i].symbol);
                 }
             }
+
+            // If in cursuse mode pring point
+            if (!isGraphMode && w > 20)
+            {
+                Log("This was the curser position : " + "( " + CursorPosition.x + ", " + CursorPosition.y + " )");
+                this.Move(h, 1);
+                Stdscr.Add ("( " + CursorPosition.x + ", " + CursorPosition.y + " )");
+            }
+
+            PositionCursor();
         }
     }
 }

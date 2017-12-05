@@ -48,6 +48,8 @@
     <Compile Include="Interfaces\ITransformAG.cs" />
     <Compile Include="HelperClasses\SimpleClasses.cs" />
     <Compile Include="HelperClasses\TermResize.cs" />
+    <Compile Include="CompositFunctionBuilder.cs" />
+    <Compile Include="Operators.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
